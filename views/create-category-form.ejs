@@ -1,0 +1,23 @@
+<!-- create-category-form.html -->
+<%- include('header') %>
+<div class="flex justify-center">
+    <form onsubmit="return validateForm('catURL')" action="/categories" method="POST" enctype="multipart/form-data" class="max-w-lg w-full">
+        <div class="grid grid-cols-4 gap-4">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required class="border rounded-lg col-span-3 mb-3">
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" class="border rounded-lg col-span-3 mb-3">
+            
+            <label for="catURL">URL:</label>
+            <input type="file" id="catURL" name="image" class="border rounded-lg col-span-3 mb-3">
+        </div>
+        
+        <div class="flex justify-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl">
+                Create Category
+            </button>
+        </div>
+    </form>
+</div>
+<%- include('footer') %>

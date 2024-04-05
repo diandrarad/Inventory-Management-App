@@ -1,0 +1,31 @@
+# Node.js Dependencies
+node_modules/
+
+# Environment Variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Compiled binary addons (if any)
+build/Release/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Generated files
+dist/
+coverage/
+
+# Ignore .env.local by default
+.env.local

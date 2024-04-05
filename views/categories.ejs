@@ -1,0 +1,26 @@
+<!-- categories.ejs -->
+<%- include('header') %>
+<h1 class="text-xl mb-3">Categories</h1>
+<% if (categories.length === 0) { %>
+  <div class="text-center h-96 flex flex-col justify-center">
+      <p class="h-80">No categories available.</p>
+  </div>
+<% } else { %>
+  <div class="min-h-80">
+    <ul class="flex flex-wrap gap-2 text-center">
+      <% categories.forEach(category => { %>
+        <li class="border-2 flex flex-col justify-around w-28">
+          <a href="items/category/<%= category._id %>">
+              <img src="<%= category.url || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg' %>" alt="<%= category.name %>">
+              <h5 class="m-3"><%= category.name %></h5>
+          </a>
+          <div class="flex justify-between mx-3">
+              <a href="/categories/<%= category.id %>/edit" class="text-blue-400">Edit</a>
+              <h5 onclick="confirmDelete('/categories/<%= category._id %>')" class="text-right text-red-400" role="button">Delete</h5>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+<%- include('footer') %>

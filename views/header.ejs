@@ -1,0 +1,22 @@
+<!-- header.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory App</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/e-commerce-retro-pack-vol-1/115/inventory_management-256.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/javascripts/script.js"></script>
+</head>
+<body class="h-screen bg-gray-100">
+  <main class="min-h-80">
+    <h1 class="text-3xl font-bold text-center mb-8">Welcome to Inventory App</h1>
+    <nav class="mb-8">
+      <ul class="flex justify-center space-x-4">
+          <li><a href="/categories" class="text-blue-500 hover:text-blue-700">Categories</a></li>
+          <li><a href="/items" class="text-blue-500 hover:text-blue-700">Items</a></li>
+          <li><a href="/items/create" class="text-blue-500 hover:text-blue-700">New Item</a></li>
+          <li><a href="/categories/create" class="text-blue-500 hover:text-blue-700">New Category</a></li>
+      </ul>
+    </nav>

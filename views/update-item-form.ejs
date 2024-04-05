@@ -1,0 +1,50 @@
+<!-- update-item-form.html -->
+<%- include('header') %>
+<div class="flex justify-center">
+    <form id="form_<%= item._id %>" onsubmit="return validateForm('editItemURL')" action="/items/<%= item._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="max-w-lg w-full">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="grid grid-cols-6 gap-3 mb-7 items-center">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= item.name %>" required class="border rounded-lg col-span-3">
+            
+            <label for="category" class="text-right">Category:</label>
+            <select id="category" name="category" required class="border rounded-lg col-span-1">
+                <% categories.forEach(category => { %>
+                    <option value="<%= category._id %>" <%= category._id.toString() === item.category.toString() ? 'selected' : '' %>><%= category.name %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="grid grid-cols-6 gap-3 mb-7 items-center">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" value="<%= item.price %>" required class="border rounded-lg col-span-2">
+            
+            <label for="numberInStock" class="col-span-2 text-right">Number in Stock:</label>
+            <input type="number" id="numberInStock" name="numberInStock" value="<%= item.numberInStock %>" required class="border rounded-lg">
+        </div>
+        
+        <div class="grid grid-cols-4 gap-4 mb-5">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="<%= item.description %>" class="border rounded-lg col-span-3 mb-3">
+            
+            <label for="editItemURL">URL:</label>
+            <div class="col-span-3">
+                <input type="file" id="editItemURL" name="image" class="border rounded-xl w-full">
+                <% if (item.url) { %>
+                    <div class="flex justify-between">
+                        <a href="<%= item.url %>" class="text-blue-400">Preview Image</a>
+                        <a href="#" class="text-red-400" onclick="deleteImage('/items/<%= item._id %>')">Delete Image</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <input id="password_<%= item._id %>" name="adminPassword" type="hidden">
+        
+        <div class="flex justify-center">
+            <button onclick="confirmEdit(event, '<%= item._id %>')" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl">
+                Update Item
+            </button>
+        </div>
+    </form>
+</div>
+<%- include('footer') %>

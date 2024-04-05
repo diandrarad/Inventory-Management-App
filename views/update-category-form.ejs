@@ -1,0 +1,33 @@
+<!-- update-category-form.html -->
+<%- include('header') %>
+<div class="flex justify-center">
+    <form id="form_<%= category._id %>" onsubmit="return validateForm('editCatURL')" action="/categories/<%= category._id %>?_method=PUT" enctype="multipart/form-data" method="POST" class="max-w-lg w-full">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="grid grid-cols-4 gap-4 mb-4">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= category.name %>" required class="border rounded-lg col-span-3 mb-3">
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="<%= category.description %>" class="border rounded-lg col-span-3 mb-3">
+            
+            <label for="editCatURL">URL:</label>
+            <div class="col-span-3">
+                <input type="file" id="editCatURL" name="image" class="border rounded-xl w-full">
+                <% if (category.url) { %>
+                    <div class="flex justify-between">
+                        <a href="<%= category.url %>" class="text-blue-400">Preview Image</a>
+                        <a href="#" class="text-red-400" onclick="deleteImage('/categories/<%= category._id %>')">Delete Image</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <input id="password_<%= category._id %>" name="adminPassword" type="hidden">
+        
+        <div class="flex justify-center">
+            <button onclick="confirmEdit(event, '<%= category._id %>')" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl">
+                Update Category
+            </button>
+        </div>
+    </form>
+</div>
+<%- include('footer') %>
