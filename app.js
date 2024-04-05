@@ -8,7 +8,7 @@ var methodOverride = require('method-override')
 const cloudinary = require('cloudinary').v2;
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/inventory')
+mongoose.connect(process.env.MONGODB_URI)
 
 var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')

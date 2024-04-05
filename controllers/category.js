@@ -1,7 +1,7 @@
 // controllers/category.js
 const Category = require('../models/category')
 const { uploadToCloudinary } = require('../middleware/uploadMiddleware')
-const ADMIN_PASSWORD = '123'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 
 exports.createCategory = async (req, res) => {
   try {
