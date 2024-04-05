@@ -48,6 +48,12 @@ exports.getCreateForm = async (req, res) => {
 
 exports.deleteImage = async (req, res) => {
     try {
+        const { adminPassword } = req.body
+        if (adminPassword !== ADMIN_PASSWORD) {
+          return res.status(401).json({
+            message: 'Unauthorized access. Please check your admin password.'
+          })
+        }
         const item = await Item.findById(req.params.id)
         if (!item) return res.status(404).json({ message: 'Item not found' })
         item.url = ''

@@ -1,19 +1,28 @@
 async function deleteImage(endpoint) {
     if (confirm('Are you sure you want to delete this image?')) {
+      const adminPassword = prompt('Please enter the admin password:')
+      if (adminPassword !== null) {
         try {
-            const response = await fetch(`${endpoint}/delete-image`, {
-                method: 'DELETE'
-            })
+          const response = await fetch(`${endpoint}/delete-image`, {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ adminPassword })
+          })
 
-            if (response.ok) {
-                window.location.href = `${endpoint}/edit`
-                alert('Image deleted successfully')
-            } else alert('Failed to delete image')
-
+          if (response.ok) {
+            window.location.href = `${endpoint}/edit`
+            alert('Image deleted successfully')
+          }
+          else if (response.status === 401) {
+            alert('Unauthorized access. Please check your admin password.')
+          }
+          else throw new Error('Error deleting the item')
+          
         } catch (error) {
-            console.error('Error:', error)
-            alert('An error occurred while deleting the image')
+          console.error('Error:', error)
+          alert('An error occurred while deleting the item')
         }
+      }
     }
 }
   
