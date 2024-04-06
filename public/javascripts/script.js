@@ -20,7 +20,7 @@ async function deleteImage(endpoint) {
           
         } catch (error) {
           console.error('Error:', error)
-          alert('An error occurred while deleting the item')
+          alert('Unauthorized access. Please check your admin password.')
         }
       }
     }
@@ -32,19 +32,16 @@ async function confirmDelete(endpoint) {
         if (adminPassword !== null) {
           try {
             const response = await fetch(endpoint, {
-                method: 'POST',
+                method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ adminPassword })
             })
 
             if (response.ok) {
-              window.location.reload()
+              window.location.href = `/${endpoint.split('/')[1]}`
               alert('Item deleted successfully')
             }
-            else if (response.status === 401) {
-              alert('Unauthorized access. Please check your admin password.')
-            }
-            else throw new Error('Error deleting the item')
+            else alert('Unauthorized access. Please check your admin password.')
             
           } catch (error) {
             console.error('Error:', error)
@@ -55,20 +52,20 @@ async function confirmDelete(endpoint) {
 }
   
 async function confirmEdit(event, id) {
-    event.preventDefault()
-    const adminPassword = prompt('Please enter the admin password:')
-    if (adminPassword !== null) {
-      try {
-        const editForm = document.getElementById('form_' + id)
-        const passwordInput = document.getElementById('password_' + id)
-        passwordInput.value = adminPassword
-        editForm.submit()
-        
-      } catch (error) {
-        console.error('Error:', error)
-        alert('An error occurred while editing the item')
-      }
+  event.preventDefault()
+  const adminPassword = prompt('Please enter the admin password:')
+  if (adminPassword !== null) {
+    try {
+      const editForm = document.getElementById('form_' + id)
+      const passwordInput = document.getElementById('password_' + id)
+      passwordInput.value = adminPassword
+      editForm.submit()
+      
+    } catch (error) {
+      console.error('Error:', error)
+      alert('An error occurred while editing the item')
     }
+  }
 }
 
 function validateForm(urlID) {

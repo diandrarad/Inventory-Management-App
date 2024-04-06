@@ -1,7 +1,6 @@
 // controllers/category.js
 const Category = require('../models/category')
 const { uploadToCloudinary } = require('../middleware/uploadMiddleware')
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 
 exports.createCategory = async (req, res) => {
   try {
@@ -19,7 +18,7 @@ exports.createCategory = async (req, res) => {
 exports.updateCategory = async (req, res) => {
   try {
     const { adminPassword } = req.body
-    if (adminPassword !== ADMIN_PASSWORD) {
+    if (adminPassword !== process.env.ADMIN_PASSWORD) {
       res.status(401).redirect(req.params.id + '/edit')
       return
     }
@@ -38,12 +37,6 @@ exports.updateCategory = async (req, res) => {
 
 exports.deleteImage = async (req, res) => {
     try {
-        const { adminPassword } = req.body
-        if (adminPassword !== ADMIN_PASSWORD) {
-          return res.status(401).json({
-            message: 'Unauthorized access. Please check your admin password.'
-          })
-        }
         const category = await Category.findById(req.params.id);
         if (!category) return res.status(404).json({ message: 'Category not found' })
         category.url = ''
@@ -96,12 +89,6 @@ exports.getCategoryById = async (req, res) => {
 // Delete a category
 exports.deleteCategory = async (req, res) => {
   try {
-    const { adminPassword } = req.body
-    if (adminPassword !== ADMIN_PASSWORD) {
-      return res.status(401).json({
-        message: 'Unauthorized access. Please check your admin password.'
-      })
-    }
     const deletedCategory = await Category.findByIdAndDelete(req.params.id)
     if (!deletedCategory) {
       return res.status(404).json({ message: 'Category not found' })

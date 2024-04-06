@@ -2,7 +2,6 @@
 const Item = require('../models/item')
 const Category = require('../models/category')
 const { uploadToCloudinary } = require('../middleware/uploadMiddleware')
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 
 exports.createItem = async (req, res) => {
   try {
@@ -10,7 +9,7 @@ exports.createItem = async (req, res) => {
     if (req.file) imageUrl = await uploadToCloudinary(req.file)
     const newItem = new Item(createItemObject(req.body, imageUrl))
     await newItem.save()
-    res.redirect('/items')
+    res.redirect(`/items/${newItem.id}`)
   } catch (error) {
     res.status(400).json({ message: error.message })
   }
@@ -20,7 +19,7 @@ exports.createItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
   try {
     const { adminPassword } = req.body
-    if (adminPassword !== ADMIN_PASSWORD) {
+    if (adminPassword !== process.env.ADMIN_PASSWORD) {
       res.status(401).redirect(req.params.id + '/edit')
       return
     }
@@ -33,7 +32,7 @@ exports.updateItem = async (req, res) => {
     if (!updatedItem) return res.status(404).json({ message: 'Item not found' })
     res.redirect(`/items/${req.params.id}`)
   } catch (error) {
-    // res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message })
   }
 }
 
@@ -48,12 +47,6 @@ exports.getCreateForm = async (req, res) => {
 
 exports.deleteImage = async (req, res) => {
     try {
-        const { adminPassword } = req.body
-        if (adminPassword !== ADMIN_PASSWORD) {
-          return res.status(401).json({
-            message: 'Unauthorized access. Please check your admin password.'
-          })
-        }
         const item = await Item.findById(req.params.id)
         if (!item) return res.status(404).json({ message: 'Item not found' })
         item.url = ''
@@ -111,12 +104,6 @@ exports.getItemById = async (req, res) => {
 // Delete an item
 exports.deleteItem = async (req, res) => {
   try {
-    const { adminPassword } = req.body
-    if (adminPassword !== ADMIN_PASSWORD) {
-      return res.status(401).json({
-        message: 'Unauthorized access. Please check your admin password.'
-      })
-    }
     const deletedItem = await Item.findByIdAndDelete(req.params.id)
     if (!deletedItem) {
       return res.status(404).json({ message: 'Item not found' })
